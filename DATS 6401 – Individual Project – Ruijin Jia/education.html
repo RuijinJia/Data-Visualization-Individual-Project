@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>visualization</title>
+    <link rel="stylesheet" href="css/style.css">
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+    <div id='container'>
+        <div id='header'>
+            <div id="headertext">
+                <h1>Education, Healthcare, and Military Spending</h1>
+                <h2>An Analysis of G20 Countries from 2011 to 2016</h2>
+            </div>
+            <div id='navigation'>
+                <ul id='navi'>
+                    <li><a href="home.html">Overview</a></li>
+                    <li><a href="healthcare.html">Healthcare</a></li>
+                    <li class='selected'><a href="education.html"><b>Education</b></a></li>
+                    <li><a href="military.html">Military</a></li>
+                    <li><a href="trend.html">Trend</a></li>
+                </ul>
+            </div>
+        </div> 
+        <div id='content'>   
+            <div class='author'>
+                <h3>Author</h3>
+                <h4>Ruijin Jia</h4>
+                <h5><a href="mailto:rjia58@gwu.edu">rjia58@gwu.edu</a></h5>
+                <h5>Instructor: Nima Zahadat</h5>
+                <h3>Data Source</h3>
+                <ul>
+                    <li><a class="selected" href="https://data.worldbank.org/">World Bank Open Data</a></li>
+                    <li><a class="selected" href="https://developers.google.com/chart/interactive/docs/gallery">Google Gallery</a></li>
+                    <li><a class="selected" href="https://www.data.gov/">Data Gov</a></li>
+                </ul>
+            </div>
+            <div id='chart'>
+                <h1>Educational Spending
+                    <p> The analysis of educational spending covers Abosolute Educational Spending,
+                        Education VS GDP, Education VS Military, Education per Person and Education Annual Growth for
+                        Top Countries.</p>
+                </h1>
+                <h2>Educational Spending for Top Countries</h2>
+					<div id="Educational_spending_div" style="width: 700px; height: 430px;"></div>
+                    <p>note:  9 countries are picked for analysis: United Kingdom, Germany, France, Italy,
+                         Australia, Mexico, Russia, Argentina and South Africa. </p>
+                <h2>Educational As % of GDP for Top Countries</h2>
+                    <div id="Educationalgdp_spending_div" style="width: 700px; height: 450px;"></div>
+                <h2>Education VS Military</h2>
+                    <div id="educationmilitary_spending_div" style="width: 700px; height: 450px;"></div>
+                <h2>Educational Spending Annual Growth in Top Countries</h2>
+                    <div id="Educational_annual_growth_div" style="width: 700px; height:450px"></div>
+                    <p> note: Among 10 countries, most contries decrease annual educational spending during 2016</p>
+                <h2>Educational Per Person Spending for Top Countries</h2>
+					<div id="Educational_perperson_spending_div" style="width: 700px; height:450px;"></div>
+                    <p></p>
+                <h2>Education per Person VS GDP per Person</h2>
+                    <div id="educationgdpperperson_spending_div" style="width: 700px; height: 450px;"></div>
+                <h2>Correlation between Educational Spending per Person and GDP per Person</h2>
+                    <div id="correducationgdpperperson_spending_div" style="width: 700px; height: 450px;"></div>
+                    <p> note: We can see positive correlation between educational spending per person and GDP per person.
+                         </p>
+            </div>
+        <div class="footer">
+            Copyright &copy 2020
+        </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawAllSheets);
+    
+    function drawAllSheets() {
+        drawSheetName('Education', 'SELECT A,F,G,H,I,J,K',EducationalSpendingResponseHandler);
+        drawSheetName('Education/GDP', 'SELECT A,F,G,H,I,J,K', EducationalGDPSpendingResponseHandler);
+        drawSheetName('EHM', 'SELECT K,L,M',EducationMilitaryResponseHandler);
+        drawSheetName('Educationalannualgrowth', 'SELECT A,J',EducationalannualGrowthResponseHandler);
+        drawSheetName('educationperperson', 'SELECT A,F,G,H,I,J,K', EducationalPerpersonSpendingResponseHandler);
+        drawSheetName('EHMperperson', 'SELECT E,F,G', EducationGDPPerpersonSpendingResponseHandler);
+        drawSheetName('EHMperperson', 'SELECT E,G,F', CorrEducationGDPPerpersonSpendingResponseHandler);
+    }
+    
+    function drawSheetName(sheetName, query, responseHandler) {
+        var queryString = encodeURIComponent(query);
+        var query = new google.visualization.Query(
+        'https://docs.google.com/spreadsheets/d/1ZzJ02saUKE_-KvfXK05J3BJn0FyoNKyfWjCxN2yNgkQ/gviz/tq?sheet=' + sheetName + '&headers=1&tq=' +queryString  
+        );   
+        query.send(responseHandler);
+    }
+    
+
+    function EducationalSpendingResponseHandler(response) {
+        var data = response.getDataTable();
+        data.sort({column: 5, desc:true});
+        
+
+        var options = {height: 400,
+                        vAxis : {title: 'Spending in ($)'},
+                        hAxis: {title: 'Country'}};
+            
+        var chart = new google.visualization.ColumnChart(
+            document.getElementById("Educational_spending_div"));
+            
+        chart.draw(data, options);
+    } 
+
+    function EducationalGDPSpendingResponseHandler(response) {
+        var data = response.getDataTable();
+        data.sort({column: 5, desc:true});
+        
+
+        var options = {height: 400,
+                        vAxis : {title: '% of GDP'},
+                        hAxis: {title: 'Country'}};
+            
+        var chart = new google.visualization.ColumnChart(
+            document.getElementById("Educationalgdp_spending_div"));
+            
+        chart.draw(data, options);
+    } 
+
+    function EducationMilitaryResponseHandler(response) {
+        var data = response.getDataTable();
+
+        var options = {
+            width: 600,
+            height: 400,
+            legend: {position: 'top', maxLines: 1},
+            bar: {groupWidth: '75%'},
+            isStacked: true
+        };
+
+        var chart = new google.visualization.BarChart(
+            document.getElementById("educationmilitary_spending_div"));
+        chart.draw(data, options);
+    } 
+
+
+
+    function EducationalannualGrowthResponseHandler(response) {
+        var data = response.getDataTable();
+
+        var options ={
+            height: 400,
+            legend: 'none',
+            bars: 'horizontal',
+            annotations: {alwaysOutside: true},
+            title: 'Educational Spending Annual Growth for Top Countries',
+            vAxis: {title: 'Country'},
+            hAxis: {title: 'Annual Growth in 2016'}
+        };
+
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0,1,{
+                calc: function(dt, row){
+                    return '$'+Math.ceil(dt.getFormattedValue(row, 1));
+                },
+                sourceColumn: 1,
+                type: 'string',
+                role: 'annotation'
+        }]);
+
+        var chart = new google.visualization.BarChart(
+                    document.getElementById("Educational_annual_growth_div")
+        );
+        chart.draw(view, options); 
+    }
+
+    function EducationalPerpersonSpendingResponseHandler(response) {
+        var data = response.getDataTable();
+        data.sort({column: 5, desc:true});
+        
+
+        var options = {height: 400,
+                        vAxis : {title: 'Spending in ($)'},
+                        hAxis: {title: 'Country'}};
+            
+        var chart = new google.visualization.ColumnChart(
+            document.getElementById("Educational_perperson_spending_div"));
+            
+        chart.draw(data, options);
+    }
+
+    function EducationGDPPerpersonSpendingResponseHandler(response) {
+        var data = response.getDataTable();
+        data.sort({column: 2, desc:true});
+        
+
+        var options = {height: 400,
+                        vAxis : {title: 'Spending in ($)'},
+                        hAxis: {title: 'Country'}};
+            
+        var chart = new google.visualization.ColumnChart(
+            document.getElementById("educationgdpperperson_spending_div"));
+            
+        chart.draw(data, options);
+    }
+
+    function CorrEducationGDPPerpersonSpendingResponseHandler(response) {
+
+        var data = response.getDataTable();
+
+        var options = {
+
+            title: 'Educational Spending per person ' +
+            'and GDP per person (2011-2016)',
+            hAxis: {title: 'GDP Per Person'},
+            vAxis: {title: 'Educational Spending Per Person'},
+            bubble: {textStyle: {fontSize: 10,auraColor: 'none'}}      };
+
+        var chart = new google.visualization.BubbleChart(document.getElementById('correducationgdpperperson_spending_div'));
+        chart.draw(data, options);
+    }
+    
+
+   
+
+
+</script>
+
+</html>
+

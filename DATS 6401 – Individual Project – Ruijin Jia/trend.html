@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>visualization</title>
+    <link rel="stylesheet" href="css/style.css">
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+    <div id='container'>
+        <div id='header'>
+            <div id="headertext">
+                <h1>Education, Healthcare, and Military Spending</h1>
+                <h2>An Analysis of G20 Countries from 2011 to 2016</h2>
+            </div>
+            <div id='navigation'>
+                <ul id='navi'>
+                    <li ><a href="home.html">Overview</a></li>
+                    <li><a href="healthcare.html">Healthcare</a></li>
+                    <li><a href="education.html">Education</a></li>
+                    <li><a href="military.html">Military</a></li>
+                    <li class='selected'><a href="trend.html"><b>Trend</b></a></li>
+                </ul>
+            </div>
+        </div> 
+        <div id='content'>   
+            <div class='author'>
+                <h3>Author</h3>
+                <h4>Ruijin Jia</h4>
+                <h5><a href="mailto:rjia58@gwu.edu">rjia58@gwu.edu</a></h5>
+                <h5>Instructor: Nima Zahadat</h5>
+                <h3>Data Source</h3>
+                <ul>
+                    <li><a class="selected" href="https://data.worldbank.org/">World Bank Open Data</a></li>
+                    <li><a class="selected" href="https://developers.google.com/chart/interactive/docs/gallery">Google Gallery</a></li>
+                    <li><a class="selected" href="https://www.data.gov/">Data Gov</a></li>
+                </ul>
+            </div>
+            <div id='chart'>
+                <h1>Trend & Summary
+                    <p>
+                        We can see increasing trend of GDP, military spending, educational spending, and healthcare
+                        spending in G20 countries over year 2011~2016. 
+                        
+                    </p>
+                </h1>
+                <h2>Military Spending Trend for 2011~2016</h2>
+					<div id="Military_trend_div" style="width: 750px; height: 450px;"></div>
+					<p> note: United States always has highest military spending, but tended to decrease slightly since 2012 and bounced since 2015.
+                        The same trend followed by European Union. China ranks third during 2011 to 2016, and continually increase.
+                        Other countries hover at relatively steady level.
+                    </p>
+                <h2>Educational Spending Trend for 2011~2016</h2>
+					<div id="Educational_trend_div" style="width: 750px; height: 450px;"></div>
+					<p> note: After Cleaning missing value, we got trend of educational spending of remaining countries, from
+                        which we can see educational spendings are steady but German and France cut spending a little bit since year 2014 and recovered at year 2015.
+                    </p>
+                <h2>Healthcare Spending Trend for 2011~2016</h2>
+					<div id="healthcare_trend_div" style="width: 750px; height: 450px;"></div>
+					<p> note: Most countries contains at the steady level, except slightly decrease in European Union and slightly
+                        increase in United States since 2014.
+                    </p>
+                <h1>Highlight China
+                    <p> 1. United States is of with highest absolutely value in GDP, Military Spending,
+                        and Healthcare Spending.
+                    </p>
+                    <p>
+                        2. China is the only country whose GDP, Military Spending and Healthcare spending continually increase, which
+                         proves positive correlation between GDP VS military spending and healthcare spending again.  
+                            
+                    </p>
+                    </h1>
+                    <h2>Military, Healthcare Spending Trend for 2011~2016</h2>
+                        <div id="China_trend_div" style="width: 750px; height: 450px;"></div>
+                        <div id="Chinagdp_trend_div" style="width: 750px; height: 450px;"></div>
+            </div>
+        <div class="footer">
+            Copyright &copy 2020
+        </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawAllSheets);
+    
+    function drawAllSheets() {
+        drawSheetName('Military2', 'SELECT A,B,C,D,E,F,G,H,I,J,K', MilitaryTrendResponseHandler);
+        drawSheetName('Education2', 'SELECT A,B,C,D,E,F,G,H', EducationTrendResponseHandler);
+        drawSheetName('Healthcare2', 'SELECT A,B,C,D,E,F,G,H,I,J', HealthcareTrendResponseHandler);
+        drawSheetName('China', 'SELECT A,C,D', ChinaTrendResponseHandler);
+        drawSheetName('China', 'SELECT A,B', ChinagdpTrendResponseHandler);
+    }
+    
+    function drawSheetName(sheetName, query, responseHandler) {
+        var queryString = encodeURIComponent(query);
+        var query = new google.visualization.Query(
+        'https://docs.google.com/spreadsheets/d/1ZzJ02saUKE_-KvfXK05J3BJn0FyoNKyfWjCxN2yNgkQ/gviz/tq?sheet=' + sheetName + '&headers=1&tq=' +queryString  
+        );   
+        query.send(responseHandler);
+    }
+    
+
+    function MilitaryTrendResponseHandler(response) {
+
+        var data = response.getDataTable();
+        var options = {
+
+        title: 'Military Spending Trends over 2011-2016',	
+        chartArea:{left:200,width:'100%',right:200},
+        legend: { position: 'right' }};
+
+        var chart = new google.visualization.LineChart(document.getElementById('Military_trend_div'));
+        chart.draw(data, options);
+    }
+
+    function EducationTrendResponseHandler(response) {
+
+        var data = response.getDataTable();
+        var options = {
+
+        title: 'Educational Spending Trends over 2011-2016',	
+        chartArea:{left:200,width:'100%',right:200},
+        legend: { position: 'right' }};
+
+        var chart = new google.visualization.LineChart(document.getElementById('Educational_trend_div'));
+        chart.draw(data, options);
+    }
+
+    function HealthcareTrendResponseHandler(response) {
+
+        var data = response.getDataTable();
+        var options = {
+
+        title: 'healthcare Spending Trends over 2011-2016',	
+        chartArea:{left:200,width:'100%',right:200},
+        legend: { position: 'right' }};
+
+        var chart = new google.visualization.LineChart(document.getElementById('healthcare_trend_div'));
+        chart.draw(data, options);
+    }
+
+    function ChinaTrendResponseHandler(response) {
+
+        var data = response.getDataTable();
+        var options = {
+
+        title: ' Trends over 2011-2016 for China',	
+        chartArea:{left:200,width:'100%',right:200},
+        legend: { position: 'right' }};
+
+        var chart = new google.visualization.LineChart(document.getElementById('China_trend_div'));
+        chart.draw(data, options);
+    }  
+
+    function ChinagdpTrendResponseHandler(response) {
+
+        var data = response.getDataTable();
+        var options = {
+
+        title: 'Chinese GDP Trends over 2011-2016',	
+        chartArea:{left:200,width:'100%',right:200},
+        legend: { position: 'right' }};
+
+        var chart = new google.visualization.LineChart(document.getElementById('Chinagdp_trend_div'));
+        chart.draw(data, options);
+    }    
+
+</script>
+
+</html>
+
+

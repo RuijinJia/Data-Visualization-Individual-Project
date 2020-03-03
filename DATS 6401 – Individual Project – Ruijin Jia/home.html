@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>visualization</title>
+    <link rel="stylesheet" href="css/style.css">
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+    <div id='container'>
+        <div id='header'>
+            <div id="headertext">
+                <h1>Education, Healthcare, and Military Spending</h1>
+                <h2>An Analysis of G20 Countries from 2011 to 2016</h2>
+            </div>
+            <div id='navigation'>
+                <ul id='navi'>
+                    <li class='selected'><a href="home.html"><b>Overview</b></a></li>
+                    <li><a href="healthcare.html">Healthcare</a></li>
+                    <li><a href="education.html">Education</a></li>
+                    <li><a href="military.html">Military</a></li>
+                    <li><a href="trend.html">Trend</a></li>
+                </ul>
+            </div>
+        </div> 
+        <div id='content'>   
+            <div class='author'>
+                <h3>Author</h3>
+                <h4>Ruijin Jia</h4>
+                <h5><a href="mailto:rjia58@gwu.edu">rjia58@gwu.edu</a></h5>
+                <h5>Instructor: Nima Zahadat</h5>
+                <h3>Data Source</h3>
+                <ul>
+                    <li><a class="selected" href="https://data.worldbank.org/">World Bank Open Data</a></li>
+                    <li><a class="selected" href="https://developers.google.com/chart/interactive/docs/gallery">Google Gallery</a></li>
+                    <li><a class="selected" href="https://www.data.gov/">Data Gov</a></li>
+                </ul>
+            </div>
+            <div id='chart'>
+                <h1>About the Data & Project
+                    <p>
+                        There is over 190 countries in the world, but an specical group called G20 countries.
+                        G20 countries drive about 85% economic activities and 2/3 population in teh world. 
+                        The project is designed for analyzing military, educational and healthcare spending 
+                        over G20 countries from year 2011~2016, and exploring hidden trend inside the data. 
+                        The raw data is basically from <a  href="https://data.worldbank.org/">World Bank Open Data</a>.
+                        In particular, educational data is poorly represented, and author removes the countries for analysis
+                        of educational spending if data is not available for latest three years. 
+                        
+                    </p>
+                </h1>
+                <h2>GDP of G20 Countries for 2016</h2>
+					<div id="GDP_spending_div" style="width: 750px; height: 500px;"></div>
+					<p></p>
+				<h2>Healthcare Spending of G20 Countries for 2016</h2>
+					<div id="healthcare_spending_div" style="width: 750px; height: 600px;"></div>
+					<p></p>
+				<h2>Military Spending of G20 Countries for 2016</h2>
+					<div id="military_spending_div" style="width: 750px; height: 600px;"></div>
+				<h2>Educational Spending of G20 Countries for 2016</h2>
+                    <div id="education_spending_div" style="width: 750px; height: 600px;"></div>
+                <h2>Educational, Healthcare VS Military</h2>
+					<div id="ehm_div" style="width: 800px; height: 600px;"></div>
+            </div>
+        <div class="footer">
+            Copyright &copy 2020
+        </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawAllSheets);
+    
+    function drawAllSheets() {
+        drawSheetName('GDP', 'SELECT A,K', GDPSpendingResponseHandler);
+        drawSheetName('Healthcare', 'SELECT A,K', HealthcareSpendingResponseHandler);
+        drawSheetName('Military', 'SELECT A,K', MilitarySpendingResponseHandler);
+        drawSheetName('Education', 'SELECT A,K', EducationSpendingResponseHandler);
+        drawSheetName('EHM', 'SELECT A,B,C,D', EHMResponseHandler);
+    }
+    
+    function drawSheetName(sheetName, query, responseHandler) {
+        var queryString = encodeURIComponent(query);
+        var query = new google.visualization.Query(
+        'https://docs.google.com/spreadsheets/d/1ZzJ02saUKE_-KvfXK05J3BJn0FyoNKyfWjCxN2yNgkQ/gviz/tq?sheet=' + sheetName + '&headers=1&tq=' +queryString  
+        );   
+        query.send(responseHandler);
+    }
+    
+
+    function  GDPSpendingResponseHandler(response) {
+        var data = response.getDataTable();
+        data.sort({column: 1, desc: true});
+
+        var options = {
+            height: 400,
+            colorAxis : {colors: ['#e8f192', '#0a3679']}, 
+            title: 'GDP Spending of G20 Countries'
+        };
+
+        var chart = new google.visualization.GeoChart(
+            document.getElementById("GDP_spending_div"));
+        chart.draw(data, options);
+    }
+
+    function  HealthcareSpendingResponseHandler(response) {
+        var data = response.getDataTable();
+        data.sort({column: 1, desc: true});
+
+        var options = {
+            height: 400,
+            colorAxis : {colors: ['#e8f192', '#0a3679']}, 
+            title: 'Healthcare Spending of G20 Countries'
+        };
+
+        var chart = new google.visualization.GeoChart(
+            document.getElementById("healthcare_spending_div"));
+        chart.draw(data, options);
+    }
+
+    function  MilitarySpendingResponseHandler(response) {
+        var data = response.getDataTable();
+        data.sort({column: 1, desc: true});
+
+        var options = {
+            height: 400,
+            colorAxis : {colors: ['#e8f192', '#0a3679']}, 
+            title: 'Military Spending of G20 Countries'
+        };
+
+        var chart = new google.visualization.GeoChart(
+            document.getElementById("military_spending_div"));
+        chart.draw(data, options);
+    }
+
+    function  EducationSpendingResponseHandler(response) {
+        var data = response.getDataTable();
+        data.sort({column: 1, desc: true});
+
+        var options = {
+            height: 400,
+            colorAxis : {colors: ['#e8f192', '#0a3679']}, 
+            title: 'Educational Spending of G20 Countries'
+        };
+
+        var chart = new google.visualization.GeoChart(
+            document.getElementById("education_spending_div"));
+        chart.draw(data, options);
+    }
+
+    function EHMResponseHandler(response) {
+        var data = response.getDataTable();
+
+        var options = {
+            width: 600,
+            height: 400,
+            legend: {position: 'top', maxLines: 1},
+            bar: {groupWidth: '75%'},
+            isStacked: true
+        };
+
+        var chart = new google.visualization.BarChart(
+            document.getElementById("ehm_div"));
+        chart.draw(data, options);
+    } 
+
+
+</script>
+
+</html>
+
+

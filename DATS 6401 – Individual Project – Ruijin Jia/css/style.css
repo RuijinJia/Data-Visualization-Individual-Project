@@ -1,0 +1,204 @@
+html, body {
+  margin: 0px;
+  height:100%
+	padding: 0px;
+}
+
+body {
+	text-align:center;
+	font: "Times New Roman", Times, serif;
+  margin-top: 0;
+  background: #e2e5e5;
+}
+
+
+#container,
+#header,
+#logo
+#headertext,
+#navigation,
+#content,
+#footer{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#container{
+  width:1000px;
+}
+
+#header{
+  width:1000px;
+  height:200px;
+  margin-top:20px;
+  background: #fff;
+}
+
+
+#headertext{
+  width: 1000px;
+  height:190px;
+  position: absolute;
+  background:url(../images/G20_3_MM.jpg) no-repeat;
+  background-size: 250px, 50px;
+  background-position: right;
+}
+
+#headertext h1{
+  font-size: 35px;
+  text-align: left;
+  margin: 30px 0 0 20px;
+}
+
+#headertext h2{
+  font-size:20px;
+  text-align: left;
+  margin: 10px 0 0 20px;
+}
+
+
+#navigation {
+  width: 890px;
+  height: 35px;
+  padding: 8px 0 0 0;
+  margin: -40px 0 0 0;
+  position: relative;
+  top:190px;
+  z-index: 1;
+  float: right;
+}
+
+ul#navi {
+  float: right;
+  margin: 0;
+}
+
+
+
+#navi li {
+  float: left;
+  margin: 5px 0 0 0;
+  padding: 0 0 0 6px;
+  list-style: none;
+}
+
+#navi li a {
+  letter-spacing: 0;
+  font: normal 105% arial, sans-serif;
+  text-transform: uppercase;
+  display: block;
+  float: left;
+  height: 20px;
+  text-decoration: none;
+  padding: 9px 22px 5px 16px;
+  text-align: center;
+  color: #072c35;
+  border: 0;
+}
+
+ul#navi li.selected a {
+  height: 25px;
+  color:#112f70;
+  padding: 7px 22px 5px 16px;
+}
+
+ul#navi li.selected {
+  margin: 7px 0 0 0;
+  
+}
+
+ul#navi li a:hover {
+  color: #888;
+}
+
+#content{
+  width:1000px;
+  overflow: hidden;
+  background: #fff;
+  bottom: 0;
+}
+
+.author{
+  float: left;
+  width: 200px;
+  padding: 50px;
+}
+
+
+.author ul {
+  background:url(../images/linkimages.png) repeat-y;
+  background-size: 20px,20px;
+  background-position-x: left;
+  list-style:none;
+}
+
+.author ul li{
+  text-align: left;
+  font: 20px;
+}
+
+#content h3{
+  font-weight: bold;
+  font-size: 150%;
+  font-style: italic;
+  font-family: 'Times New Roman', Times, serif;
+  text-align: left;
+}
+
+#content h4{
+  font-size: 100%;
+  font-family: 'Times New Roman', Times, serif;
+  text-align: left;
+}
+
+#content h5{
+  font-size: 100%;
+  font-family: 'Times New Roman', Times, serif;
+  text-align: left;
+}
+
+#chart{
+  width: 700px;
+  float: right;
+}
+
+#chart h1{
+  font-size: 150%;
+  text-align:left;
+  margin:50px 0 0 0;
+}
+
+#chart h1 p{
+  font-size:85%;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: lighter;
+  margin:30px 10px 60px 0;
+  font-style: normal;
+}
+
+#chart h2{
+  font-size: 120%;
+  margin:0 0 0 0;
+  text-align:center ;
+}
+
+#chart p{
+  font-size: 90%;
+  text-align: left;
+  font-style: italic;
+  color:#072c35;
+  margin:0 20px 70px 0;
+}
+
+.footer {
+  position:fixed;
+  bottom: 0;
+  width: 1000px;
+  background:#4c93a0;
+  color: white;
+  text-align: center;
+}
+
+
+
+
